@@ -1,0 +1,33 @@
+// Merge into the live policy after replacing these example addresses with the actual device Tailscale IPs.
+// Review every existing grant and ACL. Access is additive.
+{
+  "hosts": {
+    "project-drive-windows": "100.64.0.10",
+    "project-drive-mac": "100.64.0.11",
+    "project-drive-unapproved-test": "100.64.0.12",
+  },
+  "grants": [
+    {
+      "src": ["project-drive-windows"],
+      "dst": ["project-drive-mac"],
+      "ip": ["tcp:55432"],
+    },
+    {
+      // Include this grant when enabling the optional SMB path over Tailscale.
+      "src": ["project-drive-mac"],
+      "dst": ["project-drive-windows"],
+      "ip": ["tcp:445"],
+    },
+  ],
+  "tests": [
+    {
+      "src": "100.64.0.10",
+      "accept": ["project-drive-mac:55432"],
+      "deny": ["project-drive-mac:5432"],
+    },
+    {
+      "src": "100.64.0.12",
+      "deny": ["project-drive-mac:55432", "project-drive-windows:445"],
+    },
+  ],
+}

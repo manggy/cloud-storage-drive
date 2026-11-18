@@ -1,0 +1,7 @@
+{
+  "profile": "project-drive-windows",
+  "role_arn": "arn:aws:iam::123456789012:role/project-drive-windows-mount",
+  "bucket_endpoint": "https://project-drive-123456789012-us-east-2.s3.us-east-2.amazonaws.com",
+  "db_host": "index-host.example-tailnet.ts.net",
+  "mac_uid": 501
+}

@@ -1,0 +1,6 @@
+{
+  "profile": "project-drive-mac",
+  "role_arn": "arn:aws:iam::123456789012:role/project-drive-mac-mount",
+  "bucket_endpoint": "https://project-drive-123456789012-us-east-2.s3.us-east-2.amazonaws.com",
+  "db_host": "127.0.0.1"
+}
