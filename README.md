@@ -1,9 +1,11 @@
 # Cloud Storage Drive
 
-Cloud Storage Drive gives you a **Cloud Storage** folder you can open in Finder on a Mac or File Explorer on Windows. The files live on an internal or external drive on your Windows PC, or in private Amazon S3 storage in your AWS account.
+Cloud Storage Drive lets you use a Windows PC as a home file server. Share a folder from an internal or external drive, then open that same **Cloud Storage** folder in Finder on your Mac and File Explorer on Windows.
 
-- **Work on the same project from both computers.** Save a design file on your MacBook, then pick up where you left off on your Windows PC using the same project folder.
-- **Free up space on your Mac or PC.** Move large files like video footage to a drive with room to spare on your Windows PC or to S3. Open them from the shared folder when you need them.
+- **Work together from different computers.** Save a design file on your MacBook, and someone on the Windows PC can open the updated version from the same project folder.
+- **Free up space on your Mac or PC.** Move large files like video footage to a drive with room to spare and open them from the shared folder when you need them.
+
+You can also keep the shared drive's files in private Amazon S3 storage in your own AWS account.
 
 ## Set it up with an agent
 
