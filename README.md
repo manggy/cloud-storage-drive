@@ -5,7 +5,7 @@ Cloud Storage Drive lets you use a Windows PC as a home file server. Share a fol
 - **Work together from different computers.** Save a design file on your MacBook, and someone on the Windows PC can open the updated version from the same project folder.
 - **Free up space on your Mac or PC.** Move large files like video footage to a drive with room to spare and open them from the shared folder when you need them.
 
-You can also keep the shared drive's files in private Amazon S3 storage in your own AWS account.
+If you choose the cloud setup, your files live in a private Amazon S3 bucket in your own AWS account.
 
 ## How the home setup works
 
@@ -65,8 +65,8 @@ With S3, AWS can charge for storage, requests, and downloads. The optional cloud
 
 ## How your files are protected
 
-- The Windows share uses a dedicated sign-in and an encrypted connection. The firewall limits access to the Mac you choose. Enable disk encryption on the Windows drive to protect the files stored there.
-- The S3 bucket blocks public access, encrypts stored files, and requires HTTPS. Each device signs in with temporary AWS credentials that have limited permissions. Connections to the file index from another computer stay on your private Tailscale network.
+- **If you share a Windows drive.** Your files stay on that drive. The share uses a dedicated sign-in and an encrypted connection. The firewall limits network access to the Mac you choose. Enable disk encryption on the Windows drive to protect the files stored there.
+- **If you host your files on AWS.** The S3 bucket blocks public access, encrypts stored files, and requires HTTPS. Each device uses temporary AWS credentials with limited permissions. When another computer connects to the file index, it does so over your private Tailscale network.
 
 Keep a separate backup before moving important files. The Windows share was tested on Windows, and the S3 setup was tested with simulated AWS resources and disposable local storage. Try the drive on your own devices with test files first. [Setup checks and recovery guide](docs/operations.md)
 
