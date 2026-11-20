@@ -7,6 +7,23 @@ Cloud Storage Drive lets you use a Windows PC as a home file server. Share a fol
 
 You can also keep the shared drive's files in private Amazon S3 storage in your own AWS account.
 
+## How the home setup works
+
+```mermaid
+flowchart TB
+    accTitle: One shared folder on a Windows PC
+    accDescr: The Mac opens and saves files in the shared folder over the home network. File Explorer opens and saves files in the same folder on the Windows PC's drive.
+
+    mac["Mac<br/>Finder"]
+    subgraph pc["Windows PC (home file server)"]
+        folder[("Cloud Storage<br/>Shared folder on the PC's drive")]
+        explorer["File Explorer"]
+        folder <-->|"Open and save"| explorer
+    end
+
+    mac <-->|"Home network"| folder
+```
+
 ## Set it up with an agent
 
 Paste this into a coding agent that can run commands on your computer. The agent can walk you through any steps it needs you to do on another device.
