@@ -1,36 +1,51 @@
 # Cloud Storage Drive
 
-Use a Windows disk you already own from Finder, or mount Amazon S3 as a shared filesystem. Keep large files on the selected storage and open them through Finder or File Explorer on demand.
+Cloud Storage Drive lets you open large files in Finder on your Mac or File Explorer on Windows without keeping a full copy on each computer. Store your files on an internal or external drive on a Windows PC, or in a private Amazon S3 bucket in your own AWS account.
 
-| Setup | Where files live | What needs to be online |
-| --- | --- | --- |
-| **1. Local Windows storage for Mac** | An internal or external NTFS disk attached to Windows | Windows PC. Optional Tailscale access for the Mac away from home. |
-| **2. S3 for Mac only** | A private S3 bucket | Mac and internet. The Mac hosts the file index and keeps a small disk cache. |
-| **3. S3 for Mac and Windows** | A private S3 bucket | Internet and a shared file index. Use the Mac as the index host or choose the optional Lightsail setup for independent access. |
+## Set it up with an agent
 
-## Start here
+Paste this into a coding agent that can run commands on your computer. The agent can walk you through any steps it needs you to do on another device.
 
-Clone this repository, then follow the guide for your devices.
+```text
+Set up Cloud Storage Drive for me using https://github.com/manggy/cloud-storage-drive.
+
+Read the README, then ask which computers need access, where I want the files
+to live, and whether I need to connect away from home or while the other
+computer is off. Recommend a setup and ask only for the details it needs.
+If we're using AWS, ask which account and region to use, how much I expect
+to store and download, and what I'm willing to spend.
+
+Tell me what you'll change and ask before changing network access or creating
+AWS resources. If we're using AWS, show me the estimated charges first. Have
+me sign in and enter passwords on the device so secrets stay out of chat.
+
+Follow the guide for the setup we choose. Do the work on the devices you can
+access and give me the exact steps for any others. Then open the drive, check
+that each device can save and read a test file, and tell me how to reconnect.
+```
+
+## Set it up yourself
+
+Clone this repo and follow the guide for your setup.
 
 ```bash
 git clone https://github.com/manggy/cloud-storage-drive.git
 cd cloud-storage-drive
 ```
 
-1. **Use an existing Windows disk.** Get a native **Cloud Storage** folder on both devices, with no cloud storage bill. [Local Windows and Mac setup](docs/local.md)
-2. **Use S3 on one Mac.** Get a native Finder mount with on-demand file reads and an encrypted, bounded cache volume. [S3 setup for Mac](docs/s3.md#mac-only)
-3. **Use S3 on both computers.** Mount one filesystem in Finder and File Explorer. Windows reaches the file index through Tailscale. [S3 setup for Mac and Windows](docs/s3.md#mac-and-windows)
+| Setup | How it works |
+| --- | --- |
+| [Share a Windows drive with your Mac](docs/local.md) | Both computers open the same Windows folder. The PC stays awake while you use it from the Mac. Add Tailscale if you need access away from home. This setup has no cloud storage bill. |
+| [Use S3 on one Mac](docs/s3.md#mac-only) | Open the drive in Finder. The Mac keeps track of your files and downloads them as you open them. |
+| [Use S3 on Mac and Windows](docs/s3.md#mac-and-windows) | Both computers open the same drive. By default, Windows needs the Mac online. A [small cloud server](docs/s3.md#optional-hosted-index) can keep track of the files so either computer can connect while the other is off. |
 
-An SMB save or copy is available to both devices through the same Windows folder once it finishes. The S3 version uses JuiceFS to give both configured clients a shared filesystem. The share can store files of any type with compatible filenames. Opening a file requires an app that supports its format.
+With S3, AWS can charge for storage, requests, and downloads. The optional cloud server and its disk add to your bill. [AWS setup and costs](docs/s3.md#aws-setup)
 
-## Cost and recovery
+## How your files are protected
 
-The local setup uses the capacity of your existing Windows disk. With S3 Standard in Ohio, 100 GB stored for a full month costs about **$2.30 USD for storage**, before request charges, internet downloads, and credits. Heavy downloads can dominate the bill. The S3 guide covers AWS credentials, billing, and cost controls. [Ohio S3 price list](https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonS3/current/us-east-2/index.json)
+- The Windows share uses a dedicated sign-in and an encrypted connection. The firewall limits access to the Mac you choose. Enable disk encryption on the Windows drive to protect the files stored there.
+- The S3 bucket blocks public access, encrypts stored files, and requires HTTPS. Each device signs in with temporary AWS credentials that have limited permissions. Connections to the file index from another computer stay on your private Tailscale network.
 
-Keep a separate backup before moving important files. The [operations guide](docs/operations.md) covers a 20 GB smoke test, cross-device checks, dated backups, and an index restore drill.
-
-## Verification
-
-The local SMB data path and Windows file notifications were exercised on Windows. The S3 infrastructure has mock-provider tests, and PostgreSQL and JuiceFS were exercised with disposable local file storage. Run the acceptance checks on your devices and AWS account before relying on the S3 mounts for important files.
+Keep a separate backup before moving important files. The Windows share was tested on Windows, and the S3 setup was tested with simulated AWS resources and disposable local storage. Try the drive on your own devices with test files first. [Setup checks and recovery guide](docs/operations.md)
 
 Released under the [MIT License](LICENSE).
